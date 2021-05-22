@@ -41,92 +41,44 @@ public class MyLinkedList
     }
 
     // addAtPosition: adds new item into the list at specific position
-    public void addAtPosition(int position, String item) throws IndexOutOfBoundsException { //first we must deal with errors index out of bounds errors thrown by position before head of after size +1;
-        //size +1 would mean it's been added on at the end.
+    public void addAtPosition(int position, String item)
+    {   //First create a new node for the item to go into
+        Node added = new Node(item);
+        // if the position is zero then the item will be the head.
+        // Or, if it is less than zero an out of bounds exception occurs
+        // First this case must be covered.
         if (position < 0) {
             throw new IndexOutOfBoundsException();
         }
-        //we need to find the node at position  and add our new node before it.
-        //To find this node we need to iterate through the list until we get to the node at position  -1
-        //Then insert the new node there
-        Node insertionpoint = new Node(item);
-        Node atPosition = this.head;
-        this.calculateSize();
-        int counter = 0;
-
-        //if there are no other items in the list and the position = 0 then the item added will be the head
-        if (this.head == null && position == 0) {
-            this.head = insertionpoint;
-            counter++;
-            System.out.println("that's the head done");
+        //now the case of the node will be the head
+        if (position ==0) {
+            added.next=this.head;
+            this.head = added;
+            //now the size needs to be calculated now there is a new node added
+            //in this case the size should be 1 as there is just the head
             this.calculateSize();
-        } else {
-            //iterate through until got to position and add a node there
-
-            while (atPosition.next != null && counter < position-1) {
-                atPosition = atPosition.next;
-                counter++;
-
-                System.out.println("adding..." + counter + " " + item);
-
+        }else{
+            //now need to start from the head and work towards the position until we get to
+            //the node just before it
+            //start with the head
+            Node startAdd =this.head;
+            while(--position > 0){
+                startAdd=startAdd.next;
+//                System.out.println("adding " + item + " at " + position);
             }
-            atPosition.next=insertionpoint;
-
-            System.out.println("oh dear it's " + item + " that's causing uproar");
-
-
-
+            //once the position is reached the new node can be inserted and the size recalculated
+            added.next = startAdd.next;
+            startAdd.next= added;
             this.calculateSize();
-            for (int i = position + 1; i < this.size + 1; i++) {
-                if (insertionpoint.next != null) {
-                    atPosition = atPosition.next;
 
-
-                } else {
-                   System.out.println("Busted");
-
-                }
-
-            }
         }
     }
-
-
-//            counter++;
-            //then continue to iterate through and move the remaining items up one place
-//            while(atPosition.next != null && counter<this.size){
-//                atPosition= insertionpoint.next;
-//                counter++;
-//            }
-            //once the position has been reached insert at the new node at position
-            //but what about the rest of the list, that has to now be increased by 1!
-
-
-//        System.out.println(this.getSize());
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // deleteAtPosition: deletes item from the list at specific position
     public Node deleteAtPosition(int position)
     {
         // Add your code here (and remove null)
+        //
         return null;
     }
 
@@ -169,16 +121,18 @@ public class MyLinkedList
             position++;
             list.traverse();
         }
-        //I added the line below to test;
-//        System.out.println(list);
-//        System.out.println(array);
 
         list.addAtPosition(3, "Terry");
+        //added by me to check
+        list.traverse();
+        System.out.println("The list after adding Terry");
         list.addLast("Terry");
         list.traverse();
+        System.out.println("The list after adding Terry to the end");
 
         list.deleteAtPosition(1);
         list.traverse();
+        System.out.println("The list after deleting item at position 1 (Marko)");
     }
 }
 
